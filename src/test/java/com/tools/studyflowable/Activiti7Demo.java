@@ -1,11 +1,13 @@
 package com.tools.studyflowable;
 
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
+import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class Activiti7Demo {
 
@@ -76,5 +78,60 @@ public class Activiti7Demo {
             System.out.println(processDefinition.getId());
             System.out.println(processDefinition.getName());
         });
+    }
+
+    /**
+     * 发起一个流程
+     */
+    @Test
+    public void startFlow(){
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取RuntimeService对象
+        RuntimeService service = processEngine.getRuntimeService();
+        // 3.发起流程,返回的是流程实例对象
+        ProcessInstance processInstance = service.startProcessInstanceById("test1:1:3");
+        System.out.println("processInstance.getId() = " + processInstance.getId());
+        System.out.println("processInstance.getDeployment() = " + processInstance.getDeploymentId());
+        System.out.println("processInstance.getDescription() = " + processInstance.getDescription());
+    }
+
+    /**
+     * 待办任务查询
+     */
+    @Test
+    public void queryTodoTask(){
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取TaskService对象
+        TaskService service = processEngine.getTaskService();
+        // 3.查询任务,Task对象对应的是表act_ru_task
+        service.createTaskQuery().taskAssignee("lisi").list().forEach(task -> {
+            System.out.println(task.getId());
+            System.out.println(task.getName());
+            System.out.println(task.getAssignee());
+        });
+    }
+
+    /**
+     * 审批任务
+     */
+    @Test
+    public void completeTask(){
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取TaskService对象
+        TaskService service = processEngine.getTaskService();
+        // 2.2 根据当前登录用户查询出代办任务
+        List<Task> list = service.createTaskQuery().taskAssignee("lisi").list();
+        if (ObjectUtils.isEmpty(list)) {
+            System.out.println("没有代办任务");
+        } else {
+            list.forEach(task -> {
+                service.complete(task.getId());
+            });
+        }
+        // 3.完成任务
+//        service.complete("5005");
     }
 }

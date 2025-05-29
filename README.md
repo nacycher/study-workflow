@@ -63,3 +63,59 @@ tomcat:8.0
 - act_re_deployment表：部署信息表
 - act_re_procdef表：流程定义表
 
+## 1.6 查询流程定义
+```java
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取RepositoryService对象
+        RepositoryService service = processEngine.getRepositoryService();
+        // 3.完成部署信息
+        service.createDeploymentQuery()
+               .list()
+               .forEach(deployment -> {
+                   System.out.println(deployment.getId());
+                   System.out.println(deployment.getName());
+               });
+```
+
+## 1.7 发起一个流程
+```java
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取RuntimeService对象
+        RuntimeService service = processEngine.getRuntimeService();
+        // 3.发起流程,返回的是流程实例对象
+        ProcessInstance processInstance = service.startProcessInstanceById("test1:1:3");
+```
+部署流程成功后，就可以发起流程。  
+在发起后，会在act_ru_task表中生成当前流程对应的步骤，等待zhangsan审批。
+![img.png](src/main/resources/note-Images/workflow-1.7-01.png)
+
+## 1.8 代办任务查询
+```java
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取TaskService对象
+        TaskService service = processEngine.getTaskService();
+        // 3.查询任务,Task对象对应的是表act_ru_task
+        service.createTaskQuery().taskAssignee("zhangsan").list().forEach(task -> {
+            System.out.println(task.getId());
+            System.out.println(task.getName());
+            System.out.println(task.getAssignee());
+        });
+```
+
+## 1.9 任务审批
+```java
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取TaskService对象
+        // TOOD 这里可以先查出当前用的待审批任务，然后再进行审批
+        TaskService service = processEngine.getTaskService();
+        // 3.完成任务
+        service.complete("2505");
+```
+
+## 1.1.0 Activiti7相关表介绍
+![img.png](src/main/resources/note-Images/workflow-1.1.0-01.png)
+![img.png](src/main/resources/note-Images/workflow-1.1.0-02.png)
