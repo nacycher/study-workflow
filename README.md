@@ -14,7 +14,7 @@
 - 主流工作流版本：
 - 都由jbmp4/activiti5发展而来，不断演变出Activiti、Flowable、Camunda。  
 - 所以表结构，框架上有相似之处
-![img.png](src/main/resources/note-Images/activiti7-1.1-01.png)
+![img.png](src/main/resources/note-Images/workflow-1.1-01.png)
 
 ## 1.2、1.3获取ProcessEngine
 可以通过xml配置文件的，或者代码的方式获取ProcessEngine对象
@@ -43,8 +43,8 @@ tomcat:8.0
 ```
 - 登录： admin test  
 - 登录后进入，创建流程，进入流程绘制页面，绘制一个简单的流程。
-![img.png](img.png)
-![img_1.png](img_1.png)
+![img.png](src/main/resources/note-Images/workflow-1.4-01.png)
+![img_1.png](src/main/resources/note-Images/workflow-1.4-02.png)
 - 下载后得到一个xml，将xml部署到数据库中，即可使用。
 
 
