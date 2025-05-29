@@ -47,4 +47,19 @@ tomcat:8.0
 ![img_1.png](src/main/resources/note-Images/workflow-1.4-02.png)
 - 下载后得到一个xml，将xml部署到数据库中，即可使用。
 
+## 1.5 第一个流程的部署
+```java
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取RepositoryService对象
+        RepositoryService service = processEngine.getRepositoryService();
+        // 3.完成部署操作
+        Deployment deploy = service
+                .createDeployment()
+                .addClasspathResource("flow/test1.bpmn20.xml")
+                .name("第一个流程")// 是一个流程部署的行为，可以部署多个流程定义
+                .deploy();
+```
+- act_re_deployment表：部署信息表
+- act_re_procdef表：流程定义表
 
