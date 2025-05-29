@@ -7,6 +7,8 @@
 - [Activiti7](#Activiti7)
 
 # Activiti7
+- activiti-app.war 地址：src/main/resources/static
+
 
 ## 1.1 工作流框架版本
 - 主流工作流版本：
@@ -33,3 +35,16 @@
 ```
 
 ## 1.4 在线流程设计器
+绘制流程图，在官网下载activiti-app.war包，并在tomcat7中部署运行  
+```shell
+docker run -d -p 8080:8080 --name tomcat \
+-v /root/activiti-app.war:/usr/local/tomcat/webapps/activiti-app.war \
+tomcat:8.0
+```
+- 登录： admin test  
+- 登录后进入，创建流程，进入流程绘制页面，绘制一个简单的流程。
+![img.png](img.png)
+![img_1.png](img_1.png)
+- 下载后得到一个xml，将xml部署到数据库中，即可使用。
+
+

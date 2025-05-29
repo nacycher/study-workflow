@@ -1,0 +1,8 @@
+# 项目中使用到的shell脚本
+
+# 在docker中运行activiti-app.war
+# 需要将activiti-app.war复制到/root目录下
+docker run -d -p 8080:8080 --name tomcat \
+-v /root/activiti-app.war:/usr/local/tomcat/webapps/ROOT.war \
+tomcat:8.0
+
