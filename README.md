@@ -137,3 +137,16 @@ docker run -d --name activiti-app --network activiti-net \
 -p 8080:8080 \
 tomcat:8.0
 ```
+## 1.1.2 activiti-app汉化
+
+## 1.1.3 任务分配
+通过表达式，动态替换审批人，来实现任务的分配。
+- ${myVar}
+- ${myBean.myProperty}
+![img.png](src/main/resources/note-Images/workflow-1.1.3-01.png)
+
+- 完成流程部署
+- 为${myVar}赋值,后启动对应的流程
+- 查询act_ru_task表，assignee已经赋值  
+act_ru_variable表：流程变量表
+![img.png](src/main/resources/note-Images/workflow-1.1.3-02.png)

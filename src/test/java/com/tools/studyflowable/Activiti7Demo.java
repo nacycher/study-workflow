@@ -7,7 +7,9 @@ import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Activiti7Demo {
 
@@ -47,10 +49,15 @@ public class Activiti7Demo {
         // 2.获取RepositoryService对象
         RepositoryService service = processEngine.getRepositoryService();
         // 3.完成部署操作
-        Deployment deploy = service
+/*        Deployment deploy = service
                 .createDeployment()
                 .addClasspathResource("flow/test1.bpmn20.xml")
                 .name("第一个流程")// 是一个流程部署的行为，可以部署多个流程定义
+                .deploy();*/
+        Deployment deploy = service
+                .createDeployment()
+                .addClasspathResource("flow/test2.bpmn20.xml")
+                .name("请假流程")// 是一个流程部署的行为，可以部署多个流程定义
                 .deploy();
 
         System.out.println(deploy.getId());
@@ -81,7 +88,7 @@ public class Activiti7Demo {
     }
 
     /**
-     * 发起一个流程
+     * 发起（启动）一个流程
      */
     @Test
     public void startFlow(){
@@ -97,6 +104,28 @@ public class Activiti7Demo {
     }
 
     /**
+     * 发起（启动）一个流程
+     * 发起流程前，需要将流程定义文件中的动态参数替换掉，然后再启动流程
+     */
+    @Test
+    public void startFlowWithDyn() {
+        // 1.获取ProcessEngine对象
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        // 2.获取RuntimeService对象
+        RuntimeService service = processEngine.getRuntimeService();
+        // 设置动态参数
+        Map<String, Object> data = new HashMap<>(){{
+            put("assign1", "张三");
+            put("assign2", "李四");
+        }};
+        // 3.发起流程,返回的是流程实例对象
+        ProcessInstance processInstance = service.startProcessInstanceById("test2:1:12503", data);
+        System.out.println("processInstance.getId() = " + processInstance.getId());
+        System.out.println("processInstance.getDeployment() = " + processInstance.getDeploymentId());
+        System.out.println("processInstance.getDescription() = " + processInstance.getDescription());
+    }
+
+    /**
      * 待办任务查询
      */
     @Test
@@ -106,7 +135,7 @@ public class Activiti7Demo {
         // 2.获取TaskService对象
         TaskService service = processEngine.getTaskService();
         // 3.查询任务,Task对象对应的是表act_ru_task
-        service.createTaskQuery().taskAssignee("lisi").list().forEach(task -> {
+        service.createTaskQuery().taskAssignee("张三").list().forEach(task -> {
             System.out.println(task.getId());
             System.out.println(task.getName());
             System.out.println(task.getAssignee());
@@ -123,7 +152,7 @@ public class Activiti7Demo {
         // 2.获取TaskService对象
         TaskService service = processEngine.getTaskService();
         // 2.2 根据当前登录用户查询出代办任务
-        List<Task> list = service.createTaskQuery().taskAssignee("lisi").list();
+        List<Task> list = service.createTaskQuery().taskAssignee("张三").list();
         if (ObjectUtils.isEmpty(list)) {
             System.out.println("没有代办任务");
         } else {
