@@ -119,3 +119,21 @@ tomcat:8.0
 ## 1.1.0 Activiti7相关表介绍
 ![img.png](src/main/resources/note-Images/workflow-1.1.0-01.png)
 ![img.png](src/main/resources/note-Images/workflow-1.1.0-02.png)
+
+## 1.1.1 流程设计器持久化
+流程设计器将数据持久化到数据库中，需要在流程设计器中设置数据库连接信息。
+```shell
+docker network create activiti-net && \
+docker run -d --name mysql-activiti --network activiti-net \
+-e MYSQL_ROOT_PASSWORD=root \
+-e MYSQL_DATABASE=activiti \
+-e MYSQL_USER=activiti_user \
+-e MYSQL_PASSWORD=root \
+-p 3306:3306 \
+mysql:8.0.37-debian && \
+docker run -d --name activiti-app --network activiti-net \
+-v /root/activiti-app.war:/usr/local/tomcat/webapps/activiti-app.war \
+-v /root/config/activiti-app.properties:/usr/local/tomcat/webapps/activiti-app/WEB-INF/classes/META-INF/activiti-app/activiti-app.properties \
+-p 8080:8080 \
+tomcat:8.0
+```
