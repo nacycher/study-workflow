@@ -150,3 +150,10 @@ tomcat:8.0
 - 查询act_ru_task表，assignee已经赋值  
 act_ru_variable表：流程变量表
 ![img.png](src/main/resources/note-Images/workflow-1.1.3-02.png)
+
+## 1.1.4方法表达式
+- ${myBean.myMethod()}
+- ${myBean.myMethod('param1', 'param2')}
+![img.png](src/main/resources/note-Images/workflow-1.1.4-01.png)
+
+## 1.1.5 监听器

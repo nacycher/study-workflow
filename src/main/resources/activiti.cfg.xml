@@ -5,6 +5,9 @@
            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
            http://activiti.org/schema/activiti http://activiti.org/schema/activiti/activiti.xsd">
 
+    <!-- 注册自定义的Bean到IOC容器 -->
+    <bean class="com.tools.studyflowable.service.MyBean" id="myBean"></bean>
+
     <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/activiti7"/>
         <property name="jdbcDriver" value="com.mysql.cj.jdbc.Driver"/>

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Activiti7Demo {
+public class Activiti7Test03 {
 
     /**
      * 获取ProcessEngine对象的方式
@@ -56,7 +56,7 @@ public class Activiti7Demo {
                 .deploy();*/
         Deployment deploy = service
                 .createDeployment()
-                .addClasspathResource("flow/test2.bpmn20.xml")
+                .addClasspathResource("flow/test3.bpmn20.xml")
                 .name("请假流程")// 是一个流程部署的行为，可以部署多个流程定义
                 .deploy();
 
@@ -97,7 +97,7 @@ public class Activiti7Demo {
         // 2.获取RuntimeService对象
         RuntimeService service = processEngine.getRuntimeService();
         // 3.发起流程,返回的是流程实例对象
-        ProcessInstance processInstance = service.startProcessInstanceById("test1:1:3");
+        ProcessInstance processInstance = service.startProcessInstanceById("test1:3:25003");
         System.out.println("processInstance.getId() = " + processInstance.getId());
         System.out.println("processInstance.getDeployment() = " + processInstance.getDeploymentId());
         System.out.println("processInstance.getDescription() = " + processInstance.getDescription());
@@ -113,13 +113,8 @@ public class Activiti7Demo {
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         // 2.获取RuntimeService对象
         RuntimeService service = processEngine.getRuntimeService();
-        // 设置动态参数
-        Map<String, Object> data = new HashMap<>(){{
-            put("assign1", "张三");
-            put("assign2", "李四");
-        }};
         // 3.发起流程,返回的是流程实例对象
-        ProcessInstance processInstance = service.startProcessInstanceById("test2:1:12503", data);
+        ProcessInstance processInstance = service.startProcessInstanceById("test2:1:12503");
         System.out.println("processInstance.getId() = " + processInstance.getId());
         System.out.println("processInstance.getDeployment() = " + processInstance.getDeploymentId());
         System.out.println("processInstance.getDescription() = " + processInstance.getDescription());
