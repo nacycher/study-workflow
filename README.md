@@ -157,3 +157,29 @@ act_ru_variable表：流程变量表
 ![img.png](src/main/resources/note-Images/workflow-1.1.4-01.png)
 
 ## 1.1.5 监听器
+创建事件的监听器，在创建任务时，设置的监听器被触发了，并且正确设置了任务的处理人。
+![img.png](src/main/resources/note-Images/workflow-1.1.5-01.png)
+
+```java
+package com.tools.studyflowable.listener;
+
+import org.activiti.engine.delegate.DelegateTask;
+import org.activiti.engine.delegate.TaskListener;
+
+public class MyListener implements TaskListener {
+
+    /**
+     * 监听器调用时触发的方法
+     * @param delegateTask
+     */
+    @Override
+    public void notify(DelegateTask delegateTask) {
+        System.out.println("--->自定义的监听器执行了");
+        if (EVENTNAME_CREATE.equals(delegateTask.getEventName())) {
+            System.out.println("创建任务的监听被触发了...");
+            // 指定当前任务的处理人
+            delegateTask.setAssignee("张三");
+        }
+    }
+}
+```
